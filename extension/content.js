@@ -13,7 +13,7 @@ function _humanDelay(baseMs) {
 }
 
 // Timing configuration (defaults, will be overridden by settings)
-let _initialDelaySeconds = 1.5; // Will be loaded from settings (reduced for faster response)
+let _initialDelaySeconds = 3.5; // Will be loaded from settings (increased to let profiles settle)
 let _pollIntervalMs = 2500; // Will be loaded from settings
 let _cooldownPeriodSeconds = 30; // Will be loaded from settings
 
@@ -21,7 +21,7 @@ let _cooldownPeriodSeconds = 30; // Will be loaded from settings
 async function _loadTimingConfig() {
   return new Promise((resolve) => {
     chrome.storage.local.get(['initialDelay', 'pollInterval', 'cooldownPeriod'], (result) => {
-      _initialDelaySeconds = result.initialDelay || 1.5;
+      _initialDelaySeconds = result.initialDelay || 3.5;
       _pollIntervalMs = result.pollInterval || 2500;
       _cooldownPeriodSeconds = result.cooldownPeriod || 30;
       resolve();

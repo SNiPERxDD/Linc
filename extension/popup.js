@@ -687,7 +687,7 @@ async function loadSettings() {
         const folder = result.saveFolder || 'linkedin_profiles';
       const darkMode = result.darkMode || false;
       const autoDedup = result.autoDedupEnabled === true; // default OFF
-      const initialDelay = result.initialDelay || 1.5; // seconds (reduced from 5s for faster response)
+      const initialDelay = result.initialDelay || 3.5; // seconds (increased to let profile settle)
       const pollInterval = result.pollInterval || 2500; // milliseconds
       const cooldownPeriod = result.cooldownPeriod || 30; // seconds
       
@@ -798,7 +798,7 @@ async function saveSettings() {
   const enabled = document.getElementById('auto-scrape-toggle').checked;
   const autoDedup = document.getElementById('auto-dedup-toggle').checked;
   const folder = document.getElementById('save-folder').value || 'linkedin_profiles';
-  const initialDelay = parseInt(document.getElementById('initial-delay').value) || 1.5;
+  const initialDelay = parseInt(document.getElementById('initial-delay').value) || 3.5;
   const pollInterval = parseInt(document.getElementById('poll-interval').value) || 2500;
   const cooldownPeriod = parseInt(document.getElementById('cooldown-period').value) || 30;
   
