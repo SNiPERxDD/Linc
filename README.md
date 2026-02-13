@@ -98,6 +98,10 @@ For maximum safety and to avoid detection, use the manual keyboard shortcut:
 
 This approach gives you complete control over *when* and *which* profiles are captured, simulating natural human behavior. Navigate to a LinkedIn profile, read for a moment, then press the shortcut to capture. This is the **lowest-risk** method.
 
+**Pro Tip for Stealth**: Wait 2–3 seconds after the page loads before hitting the shortcut. This mimics a human actually reading the headline and profile summary, making the behavior indistinguishable from natural browsing.
+
+**If Capture Fails**: Reload the tab (`Cmd+R` or `Ctrl+R`) and try again. This ensures all profile elements are fully rendered before extraction attempts.
+
 #### Auto-Capture Mode (Use with Caution)
 If you choose to enable Auto-Capture:
 - Ensure **large cooldown periods** (minimum 60+ seconds between profiles)
