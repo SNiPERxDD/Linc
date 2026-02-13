@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LinkedIn Extractor</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+
+<body>
+  <header>
+    <h1>LinkedIn Extractor</h1>
+  </header>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="preview">Preview</button>
+    <button class="tab-btn" data-tab="json">JSON</button>
+    <button class="tab-btn" data-tab="history">History</button>
+    <button class="tab-btn" data-tab="settings">Settings</button>
+    <button class="tab-btn" data-tab="debug">Debug</button>
+  </div>
+
+  <div id="view-preview" class="tab-content active">
+    <!-- Profile Card -->
+    <div id="profile-card" class="card hidden">
+      <div class="profile-header">
+        <img id="p-image" src="" alt="Profile" />
+        <div class="header-info">
+          <h2 id="p-name"></h2>
+          <p id="p-headline"></p>
+          <p id="p-location"></p>
+          <span id="p-degree" class="badge hidden"></span>
+        </div>
+      </div>
+
+      <div id="stats-bar" class="stats-row hidden">
+        <div class="stat-item">
+          <span id="s-conn" class="stat-val"></span>
+          <span class="stat-label">Connections</span>
+        </div>
+        <div class="stat-item">
+          <span id="s-foll" class="stat-val"></span>
+          <span class="stat-label">Followers</span>
+        </div>
+        <div class="stat-item">
+          <span id="s-mutual" class="stat-val"></span>
+          <span class="stat-label">Mutual</span>
+        </div>
+      </div>
+
+      <div id="sections-container"></div>
+      
+      <button id="copy-json-preview" class="secondary-btn" style="width: 100%; margin-top: 10px;">Copy as JSON</button>
+    </div>
+  </div>
+
+  <div id="view-json" class="tab-content">
+    <pre id="json-output"></pre>
+    <button id="copy-json" class="secondary-btn" style="width: 100%; margin-top: 10px;">Copy JSON</button>
+  </div>
+
+  <div id="view-history" class="tab-content">
+    <div id="history-list"></div>
+    <button id="copy-all-json" class="secondary-btn" style="width: 100%; margin-top: 10px;">Copy All JSON</button>
+    <button id="clear-history" class="secondary-btn danger"
+      style="width: 100%; margin-top: 10px;">Clear History</button>
+  </div>
+
+  <div id="view-debug" class="tab-content">
+    <div class="settings-section">
+      <h3>Extraction Debug Logs</h3>
+      <p class="setting-desc">Silent logs showing extraction decisions (no console footprint)</p>
+      <div id="debug-logs"></div>
+      <button id="clear-logs" class="secondary-btn danger" style="width: 100%; margin-top: 10px;">Clear Debug Logs</button>
+    </div>
+  </div>
+
+  <div id="view-settings" class="tab-content">
+    <div class="settings-section">
+      <h3>Appearance</h3>
+      <div class="setting-item">
+        <label class="toggle-container">
+          <span>Dark Mode</span>
+          <input type="checkbox" id="dark-mode-toggle" />
+          <span class="toggle-slider"></span>
+        </label>
+        <p class="setting-desc">Switch between light and dark theme</p>
+      </div>
+    </div>
+
+    <div class="settings-section">
+      <h3>Auto-Scrape</h3>
+      <div class="setting-item">
+        <label class="toggle-container">
+          <span>Enable Auto-Scrape</span>
+          <input type="checkbox" id="auto-scrape-toggle" />
+          <span class="toggle-slider"></span>
+        </label>
+        <p class="setting-desc">Automatically scrape LinkedIn profiles when opened</p>
+      </div>
+      
+      <div class="setting-item">
+        <label class="toggle-container">
+          <span>Auto-Remove Duplicates</span>
+          <input type="checkbox" id="auto-dedup-toggle" />
+          <span class="toggle-slider"></span>
+        </label>
+        <p class="setting-desc">Automatically remove duplicate profiles on capture. Keeps latest or higher quality data.</p>
+      </div>
+      
+      <div class="setting-item">
+        <label for="save-folder">Save Folder Name:</label>
+        <input type="text" id="save-folder" placeholder="linkedin_profiles" />
+        <p class="setting-desc">Profiles will be saved to your Downloads folder</p>
+      </div>
+      
+      <div class="setting-item">
+        <label for="initial-delay">Initial Delay (seconds):</label>
+        <input type="number" id="initial-delay" min="0.5" max="30" value="1.5" />
+        <p class="setting-desc">Wait time before first auto-scrape on profile open (0.5-30s, default 1.5s for faster response)</p>
+      </div>
+      
+      <div class="setting-item">
+        <label for="poll-interval">Poll Interval (milliseconds):</label>
+        <input type="number" id="poll-interval" min="500" max="5000" value="2500" />
+        <p class="setting-desc">How often to check for URL changes (500-5000ms)</p>
+      </div>
+      
+      <div class="setting-item">
+        <label for="cooldown-period">Cooldown Period (seconds):</label>
+        <input type="number" id="cooldown-period" min="10" max="120" value="30" />
+        <p class="setting-desc">Prevent re-scrape on same profile for this duration (10-120s)</p>
+      </div>
+      
+      <button id="save-settings" class="primary-btn" style="width: 100%; margin-top: 10px;">Save Settings</button>
+    </div>
+    
+    <div class="settings-section">
+      <h3>Maintenance</h3>
+      <div class="setting-item">
+        <button id="deduplicate-btn" class="secondary-btn" style="width: 100%;">Remove Duplicate Profiles</button>
+        <p class="setting-desc">Merge profiles with the same URL, keeping the version with more data</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="actions-footer">
+    <button id="capture" class="primary-btn">Capture Profile</button>
+    <button id="export" class="secondary-btn">Download JSON</button>
+  </div>
+
+  <div id="status-bar-bottom">Ready</div>
+
+  <!-- Toast notification -->
+  <div id="toast" class="toast"></div>
+
+  <script src="popup.js"></script>
+</body>
+
+</html>

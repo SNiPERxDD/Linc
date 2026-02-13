@@ -1,0 +1,52 @@
+{
+  "manifest_version": 3,
+  "name": "Linc",
+  "version": "0.1.0",
+  "description": "Passively capture LinkedIn profile data while browsing.",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "notifications",
+    "downloads",
+    "tabs"
+  ],
+  "host_permissions": [
+    "https://www.linkedin.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "LinkedIn Scraper"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.linkedin.com/in/*"
+      ],
+      "js": [
+        "parsers.js",
+        "section_finder.js",
+        "metadata.js",
+        "scraper_engine.js",
+        "content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "commands": {
+    "capture-profile": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+E",
+        "mac": "Command+Shift+E"
+      },
+      "description": "Capture the current LinkedIn profile"
+    }
+  }
+}
