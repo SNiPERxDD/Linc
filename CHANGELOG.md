@@ -1,3 +1,11 @@
+## [2026-02-13 12:35] Project Governance
+**CHANGES:**
+- Added MIT License.
+- Added `CONTRIBUTING.md` with standard open-source guidelines.
+
+---
+
+
 ## [2026-02-13 12:28] Project Identity: Linc
 **CHANGES:**
 - Renamed project to **Linc** (one-word title).
