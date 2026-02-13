@@ -35,13 +35,17 @@ The scraper is built on three core technical pillars:
 - **No Expansion Required**: Extracts full content from the DOM without clicking "Show more" buttons, reducing detection risk by 100%
 
 ### Capture Modes
-- **Auto-Capture Mode**: Silently and automatically detects when you navigate to a LinkedIn profile and triggers extraction
-  - Configurable initial delay (default: 3.5s) to simulate natural human reading time
-  - Customizable polling interval (default: 2.5s) for profile change detection
-  - Per-profile cooldown (default: 30s) to prevent rapid re-scraping of the same profile
-- **Manual Capture**: Use keyboard shortcut or popup button to immediately capture the current profile
+- **Manual Capture (Recommended)**: Use keyboard shortcut or popup button to immediately capture the current profile
   - Mac: `Cmd+Shift+E`
   - Windows/Linux: `Ctrl+Shift+E`
+  - **Why this is safest**: You control exactly when capturing occurs, mimicking natural human behavior
+  - Minimal detection risk when used with human-like browsing patterns
+
+- **Auto-Capture Mode (Optional)**: Silently and automatically detects when you navigate to a LinkedIn profile and triggers extraction
+  - ⚠️ **Use conservatively**: Enable only when intentionally browsing LinkedIn, not for bulk scraping
+  - Configurable initial delay (default: 3.5s) to simulate natural human reading time
+  - Customizable polling interval (default: 2.5s) for profile change detection
+  - Per-profile cooldown (default: 30s) — **increase to 60%+ seconds for safer use**
 
 ### Profile Management
 - **History & Storage**: Stores up to 100 captured profiles locally with timestamps
@@ -87,12 +91,27 @@ The scraper is built on three core technical pillars:
 
 ### Usage
 
-- **Passive Mode**: Simply browse LinkedIn profiles. The extension icon will indicate activity when a capture is triggered.
-- **Manual Mode**: Use the keyboard shortcut or open the extension popup and click "Capture".
-- **History**: Open the popup to view, filter, and review captured profiles.
+#### ⭐ **Recommended: Manual Capture via Keyboard Shortcut (Safest)**
+For maximum safety and to avoid detection, use the manual keyboard shortcut:
+- **Mac**: `Cmd+Shift+E`
+- **Windows/Linux**: `Ctrl+Shift+E`
+
+This approach gives you complete control over *when* and *which* profiles are captured, simulating natural human behavior. Navigate to a LinkedIn profile, read for a moment, then press the shortcut to capture. This is the **lowest-risk** method.
+
+#### Auto-Capture Mode (Use with Caution)
+If you choose to enable Auto-Capture:
+- Ensure **large cooldown periods** (minimum 60+ seconds between profiles)
+- **Disable** Auto-Scrape by default and only enable when actively and intentionally browsing LinkedIn
+- Monitor extension behavior through the History tab to verify realistic timing patterns
+- Do **not** use in scripts or automated LinkedIn browsing scenarios
+
+#### Viewing Results
+- Open the extension popup to view your capture history
+- Click any profile to preview extracted data
+- Use the History tab to filter, search, and export captured profiles as JSON
 
 > [!WARNING]
-> High-frequency manual captures in short intervals significantly increase the risk of account flagging.
+> **Auto-Capture Detection Risk**: Leaving auto-scrape enabled while actively browsing can create detectable patterns. For safest use, **primarily rely on the keyboard shortcut (`Cmd+Shift+E` / `Ctrl+Shift+E`)** and treat auto-capture as an optional feature for selective use only.
 
 ---
 
